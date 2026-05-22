@@ -1,10 +1,11 @@
-import resend from './resend';
+import getResend from './resend';
 
 export async function sendConfirmationEmail(
   to: string,
   paymentId: string,
   taxExempt: boolean
 ) {
+  const resend = getResend();
   const taxSection = taxExempt
     ? `
       <div style="background: #fef3c7; padding: 15px; border-radius: 8px; margin: 15px 0; border-left: 4px solid #D97706;">

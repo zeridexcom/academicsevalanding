@@ -1,10 +1,11 @@
 import { NextResponse } from 'next/server';
-import razorpay from '@/lib/razorpay';
+import getRazorpay from '@/lib/razorpay';
 
 export async function POST(request: Request) {
   try {
     const { amount, currency, email } = await request.json();
 
+    const razorpay = getRazorpay();
     const order = await razorpay.orders.create({
       amount,
       currency: currency || 'INR',

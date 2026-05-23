@@ -17,12 +17,16 @@ export type CertData = {
   amount: number;
   certNumber: string;
   email: string;
+  expiresAt?: string;
 };
 
+const EXPIRY_MS = 30 * 60 * 1000;
+
 export function encryptCertData(data: CertData): string {
+  const payload = { ...data, expiresAt: new Date(Date.now() + EXPIRY_MS).toISOString() };
   const iv = crypto.randomBytes(IV_LENGTH);
   const cipher = crypto.createCipheriv(ALGORITHM, getKey(), iv);
-  const plain = Buffer.from(JSON.stringify(data), 'utf-8');
+  const plain = Buffer.from(JSON.stringify(payload), 'utf-8');
   const encrypted = Buffer.concat([cipher.update(plain), cipher.final()]);
   const tag = cipher.getAuthTag();
   const combined = Buffer.concat([iv, tag, encrypted]);
@@ -39,7 +43,10 @@ export function decryptCertToken(token: string): CertData | null {
     const decipher = crypto.createDecipheriv(ALGORITHM, getKey(), iv);
     decipher.setAuthTag(tag);
     const plain = Buffer.concat([decipher.update(encrypted), decipher.final()]);
-    return JSON.parse(plain.toString('utf-8'));
+    const data = JSON.parse(plain.toString('utf-8')) as CertData;
+    const expiresAt = new Date(data.expiresAt || '').getTime();
+    if (isNaN(expiresAt) || expiresAt < Date.now()) return null;
+    return data;
   } catch {
     return null;
   }

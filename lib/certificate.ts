@@ -136,7 +136,7 @@ export async function generate80GCertificate(params: {
     });
   }
 
-  page.drawText(`has made a donation of ₹${params.amount}/- to ${NGO_NAME} on ${today}.`, {
+  page.drawText(`has made a donation of Rs.${params.amount}/- to ${NGO_NAME} on ${today}.`, {
     x: margin + 20,
     y: bodyStartY - 3 * lineHeight - 5,
     size: 11,
@@ -188,7 +188,7 @@ export async function generate80GCertificate(params: {
     color: dark,
   });
 
-  page.drawText(`Amount: ₹${params.amount}/-`, {
+  page.drawText(`Amount: Rs.${params.amount}/-`, {
     x: margin + 30,
     y: detailBoxY + 25,
     size: 9,

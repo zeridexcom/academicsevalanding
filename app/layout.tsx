@@ -17,7 +17,7 @@ const manrope = Manrope({
 
 export const metadata: Metadata = {
   title: "Academic Seva | Urgent Needs",
-  description: "Help provide essential resources for students in need. Every contribution of ₹1 makes a life-changing difference.",
+  description: "Help provide essential resources for students in need. Every contribution of ₹199 makes a life-changing difference.",
 };
 
 export default function RootLayout({
